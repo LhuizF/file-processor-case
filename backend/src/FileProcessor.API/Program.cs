@@ -1,5 +1,9 @@
+using FileProcessor.Application.Contracts;
 using FileProcessor.Application.Services;
 using FileProcessor.Domain.Interface;
+using FileProcessor.Infra.Consumer;
+using FileProcessor.Infra.Storage;
+using FileProcessor.Infrastructure.Messaging;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +16,12 @@ builder.Services.AddSwaggerGen();
 
 //Dependency Injection
 builder.Services.AddScoped<IAcquirerFileService, AcquirerFileService>();
+builder.Services.AddScoped<IFileStore, LocalFileStore>();
+builder.Services.AddScoped<IProcessAcquirerFileService, ProcessAcquirerFileService>();
+
+builder.Services.AddSingleton<IBackgroundTaskQueue, InMemoryBackgroundTaskQueue>();
+
+builder.Services.AddHostedService<FileProcessingConsumer>();
 
 var app = builder.Build();
 
@@ -30,4 +40,3 @@ app.UseSwagger();
 app.UseSwaggerUI();
 
 app.Run();
-

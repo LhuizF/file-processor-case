@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using FileProcessor.Domain.Exceptions;
 using FileProcessor.Domain.Interface;
 using Microsoft.AspNetCore.Mvc;
@@ -15,7 +16,7 @@ namespace FileProcessor.API.Controllers
     }
 
     [HttpPost]
-    public IActionResult UploadFile(IFormFile file)
+    public async Task<IActionResult> UploadFile(IFormFile file)
     {
       if (file == null)
       {
@@ -23,7 +24,7 @@ namespace FileProcessor.API.Controllers
       }
       try
         {
-            _acquirerFileService.AddToProcessing(file.FileName, file.Length);
+          await _acquirerFileService.AddToProcessing(file.FileName, file.Length, file.OpenReadStream());
 
             return Accepted(new { message = "Arquivo validado e recebido para processamento." });
         }
@@ -31,8 +32,9 @@ namespace FileProcessor.API.Controllers
         {
           return BadRequest(new { message = ex.Message });
         }
-        catch
+        catch (Exception ex)
         {
+          Console.WriteLine(ex.Message);
           return StatusCode(500, new { message = "Ocorreu um erro interno no servidor." });
         }
     }

@@ -1,5 +1,8 @@
 using FileProcessor.Domain.Interface;
 using FileProcessor.Domain.Exceptions;
+using FileProcessor.Application.Contracts;
+using System.Threading.Tasks;
+using FileProcessor.Domain.Dtos;
 
 namespace FileProcessor.Application.Services;
 
@@ -7,15 +10,23 @@ public class AcquirerFileService : IAcquirerFileService
 {
   private readonly long _maxFileSize = 10 * 1024 * 1024;
 
-  public void AddToProcessing(string fileName, long fileSize)
+  private readonly IFileStore _fileStore;
+  private readonly IBackgroundTaskQueue _taskQueue;
+
+  public AcquirerFileService(IFileStore fileStore, IBackgroundTaskQueue taskQueue)
+  {
+    _fileStore = fileStore;
+    _taskQueue = taskQueue;
+  }
+
+  public async Task AddToProcessing(string fileName, long fileSize, Stream fileStream)
   {
 
     if (fileSize == 0)
     {
       throw new FileValidationException("Arquivo vazio");
     }
-    Console.WriteLine(fileSize);
-    Console.WriteLine(fileSize > _maxFileSize);
+
     if (fileSize > _maxFileSize)
     {
       throw new FileValidationException($"O tamanho máximo de arquivo permitido é {_maxFileSize / (1024 * 1024)} MB.");
@@ -25,6 +36,15 @@ public class AcquirerFileService : IAcquirerFileService
     {
       throw new FileValidationException("Formato de arquivo inválido. Apenas arquivos .txt são permitidos.");
     }
-    //TODO: adicionar a fila
+
+    var path = await _fileStore.SaveFileAsync(fileName, fileStream);
+    Console.WriteLine($"Arquivo salvo em: {path}");
+    await _taskQueue.Publish(new ProcessFileMessage()
+    {
+      Filename = fileName,
+      Path = path,
+      ReceivedAt = DateTime.UtcNow,
+    });
+
   }
 }
