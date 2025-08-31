@@ -1,0 +1,45 @@
+<div class="list-container">
+  <h2>Histórico de Processamento</h2>
+
+  <div *ngIf="!files || files.length === 0" class="empty-state">
+    <p>Nenhum arquivo processado ainda. Tente fazer um upload!</p>
+  </div>
+
+  <table *ngIf="files && files.length > 0" class="responsive-table">
+    <thead>
+      <tr>
+        <th>Arquivo</th>
+        <th>Status</th>
+        <th>Data do Processamento</th>
+        <th>Detalhes</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let file of files">
+        <td data-label="Arquivo">{{ file.fileName }}</td>
+
+        <td data-label="Status">
+          <div class="status-container">
+            <span
+              class="status"
+              [ngClass]="{
+                'status-success': file.status === 'Recepcionado',
+                'status-failure': file.status !== 'Recepcionado'
+              }"
+            >
+              {{ file.status }}
+            </span>
+          </div>
+        </td>
+
+        <td data-label="Data do Processamento">
+          {{ file.processedAt | date : 'dd/MM/yyyy HH:mm:ss' }}
+        </td>
+
+        <td data-label="Detalhes">
+          {{ file.errorMessage || 'OK' }}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

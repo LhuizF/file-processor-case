@@ -4,4 +4,6 @@
   <h1 class="main-title">Portal de Recepção de Arquivos</h1>
 
   <app-upload-form></app-upload-form>
+  <app-file-list [files]="(processedFiles$ | async) || []"></app-file-list>
 </main>
+<header class="main-header"></header>
