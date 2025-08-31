@@ -38,11 +38,21 @@ public class ProcessedFileService : IProcessedFileService
   {
     var (successCount, failureCount) = _processedFileRepository.CountProcessedFilesByStatusAsync();
 
+    var totalFiles = successCount + failureCount;
+
     return new ProcessedFilesStatusDto
     {
-      TotalFiles = successCount + failureCount,
-      Success = successCount,
-      Failure = failureCount
+      TotalFiles = totalFiles,
+      Success = new Result
+      {
+        Total = successCount,
+        Percent = successCount == 0 ? 0 : Math.Round((successCount / (double)totalFiles) * 100, 2)
+      },
+      Failure = new Result
+      {
+        Total = failureCount,
+        Percent = failureCount == 0 ? 0 : Math.Round((failureCount / (double)totalFiles) * 100, 2)
+      }
     };
   }
 }

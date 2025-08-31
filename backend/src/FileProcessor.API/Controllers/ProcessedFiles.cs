@@ -29,8 +29,8 @@ namespace FileProcessor.API.Controllers
       }
     }
 
-    [HttpGet("status")]
-    public IActionResult GetProcessedFilesStatus()
+    [HttpGet("stats")]
+    public IActionResult GetProcessedFilesStats()
     {
       try
       {
