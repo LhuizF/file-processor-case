@@ -6,5 +6,6 @@ public interface IProcessedFileRepository
 {
   Task AddAsync(ProcessedFile processedFile);
   Task<List<ProcessedFile>> GetAllProcessedFilesAsync();
+  (int SuccessCount, int FailureCount) CountProcessedFilesByStatusAsync();
 }
 

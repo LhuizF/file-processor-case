@@ -24,4 +24,10 @@ public class ProcessedFileRepository : IProcessedFileRepository
   {
     return await _context.ProcessedFiles.ToListAsync();
   }
+  public (int SuccessCount, int FailureCount) CountProcessedFilesByStatusAsync()
+  {
+    var successCount = _context.ProcessedFiles.Count(pf => pf.Status == FileStatus.Success);
+    var failureCount = _context.ProcessedFiles.Count(pf => pf.Status == FileStatus.Failure);
+    return (successCount, failureCount);
+  }
 }

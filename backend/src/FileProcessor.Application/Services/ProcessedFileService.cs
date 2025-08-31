@@ -33,4 +33,16 @@ public class ProcessedFileService : IProcessedFileService
       ErrorMessage = file.ErrorMessage,
     }).ToList();
   }
+
+  public ProcessedFilesStatusDto GetProcessedFilesStatusAsync()
+  {
+    var (successCount, failureCount) = _processedFileRepository.CountProcessedFilesByStatusAsync();
+
+    return new ProcessedFilesStatusDto
+    {
+      TotalFiles = successCount + failureCount,
+      Success = successCount,
+      Failure = failureCount
+    };
+  }
 }

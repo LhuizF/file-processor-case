@@ -29,5 +29,19 @@ namespace FileProcessor.API.Controllers
       }
     }
 
+    [HttpGet("status")]
+    public IActionResult GetProcessedFilesStatus()
+    {
+      try
+      {
+        var processedFiles = _processedFileService.GetProcessedFilesStatusAsync();
+        return Ok(processedFiles);
+      }
+      catch (Exception ex)
+      {
+        return StatusCode(500, $"Erro interno: {ex.Message}");
+      }
+    }
+
   }
 }

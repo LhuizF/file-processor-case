@@ -46,18 +46,15 @@ namespace FileProcessor.Application.Services;
       processedFile.Status = FileStatus.Success;
       MapParsedDataToEntity(processedFile, parsedData);
 
-      // Console.WriteLine($"Arquivo '{processFileMessage.Filename}' processado com SUCESSO.");
     }
     catch (Exception ex)
     {
-      // Console.WriteLine($"FALHA ao processar o arquivo '{processFileMessage.Filename}': {ex.processFileMessage}");
       processedFile.Status = FileStatus.Failure;
       processedFile.ErrorMessage = ex.Message;
     }
     finally
     {
       await _processedFileRepository.AddAsync(processedFile);
-      // Console.WriteLine($"Registro de processamento para '{message.Filename}' salvo com status '{processedFile.Status}'.");
     }
     }
 
