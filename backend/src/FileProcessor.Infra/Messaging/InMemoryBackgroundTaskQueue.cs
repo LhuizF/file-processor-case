@@ -2,7 +2,7 @@ using System.Threading.Channels;
 using FileProcessor.Application.Contracts;
 using FileProcessor.Domain.Dtos;
 
-namespace FileProcessor.Infrastructure.Messaging;
+namespace FileProcessor.Infra.Messaging;
 public class InMemoryBackgroundTaskQueue : IBackgroundTaskQueue
 {
   private readonly Channel<ProcessFileMessage> _queue = Channel.CreateUnbounded<ProcessFileMessage>();

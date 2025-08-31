@@ -38,7 +38,7 @@ public class AcquirerFileService : IAcquirerFileService
     }
 
     var path = await _fileStore.SaveFileAsync(fileName, fileStream);
-    Console.WriteLine($"Arquivo salvo em: {path}");
+
     await _taskQueue.Publish(new ProcessFileMessage()
     {
       Filename = fileName,

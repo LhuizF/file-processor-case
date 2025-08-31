@@ -17,13 +17,18 @@ public class LocalFileStore : IFileStore
 
   public async Task<string> SaveFileAsync(string originalFileName, Stream fileStream)
   {
-    var fullPath = Path.Combine(_storagePath, originalFileName);
+    var newFileName = $"{Guid.NewGuid()}_{originalFileName}";
 
-    using var output = new FileStream(fullPath, FileMode.Create);
-    await fileStream.CopyToAsync(output);
+    var filePath = Path.Combine(_storagePath, newFileName);
 
-    return "/" + fullPath.Replace("\\", "/");
-  }
+    await using (var file = new FileStream(filePath, FileMode.Create))
+    {
+        fileStream.Seek(0, SeekOrigin.Begin);
+        await fileStream.CopyToAsync(file);
+    }
+
+    return filePath;
+}
 
   public void DeleteFile(string filePath)
   {
