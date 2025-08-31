@@ -16,6 +16,7 @@ import { FileList } from './components/file-list/file-list';
 })
 export class App implements OnInit {
   processedFiles$!: Observable<ProcessedFile[]>;
+  isLoading = false;
 
   constructor(private apiService: ApiService) {}
 
@@ -23,7 +24,10 @@ export class App implements OnInit {
     this.loadFiles();
   }
 
-  loadFiles(): void {
+  async loadFiles(): Promise<void> {
+    this.isLoading = true;
+    // await new Promise(resolve => setTimeout(resolve, 500));
     this.processedFiles$ = this.apiService.getProcessedFiles();
+    this.isLoading = false;
   }
 }

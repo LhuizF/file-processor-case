@@ -1,4 +1,8 @@
-<div class="list-container">
+<div class="loading-indicator" *ngIf="isLoading">
+  <div class="spinner"></div>
+</div>
+
+<div class="list-container" *ngIf="!isLoading">
   <h2>Histórico de Processamento</h2>
 
   <div *ngIf="!files || files.length === 0" class="empty-state">

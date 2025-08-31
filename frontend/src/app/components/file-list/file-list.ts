@@ -11,4 +11,5 @@ import { ProcessedFile } from '../../models/processed-file.model';
 })
 export class FileList {
   @Input() files: ProcessedFile[] = [];
+  @Input() isLoading: boolean = false;
 }

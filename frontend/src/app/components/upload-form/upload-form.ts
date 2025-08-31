@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
@@ -10,6 +10,8 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule]
 })
 export class UploadForm {
+
+  @Output() uploadSuccess = new EventEmitter<void>();
 
   selectedFile: File | null = null;
   isLoading = false;
@@ -44,7 +46,7 @@ export class UploadForm {
         this.isLoading = false;
         this.uploadMessage = 'Arquivo enviado com sucesso e enfileirado para processamento!';
         this.selectedFile = null;
-        // TODO: Emitir um evento para a página principal recarregar a lista de arquivos
+        this.uploadSuccess.emit()
       },
       error: (error: HttpErrorResponse) => {
         this.isLoading = false;
