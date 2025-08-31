@@ -26,6 +26,7 @@ builder.Services.AddDbContext<FileProcessorDbContext>(options => options.UseNpgs
 builder.Services.AddScoped<IAcquirerFileService, AcquirerFileService>();
 builder.Services.AddScoped<IFileStore, LocalFileStore>();
 builder.Services.AddScoped<IProcessAcquirerFileService, ProcessAcquirerFileService>();
+builder.Services.AddScoped<IProcessedFileService, ProcessedFileService>();
 
 builder.Services.AddSingleton<IBackgroundTaskQueue, InMemoryBackgroundTaskQueue>();
 // Repositories

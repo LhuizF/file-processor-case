@@ -1,8 +1,10 @@
 using FileProcessor.Domain.Entities;
 using FileProcessor.Domain.IRepository;
 using FileProcessor.Infra.Context;
+using Microsoft.EntityFrameworkCore;
 
 namespace FileProcessor.Infra.Repositories;
+
 public class ProcessedFileRepository : IProcessedFileRepository
 {
   private readonly FileProcessorDbContext _context;
@@ -16,5 +18,10 @@ public class ProcessedFileRepository : IProcessedFileRepository
   {
     await _context.ProcessedFiles.AddAsync(processedFile);
     await _context.SaveChangesAsync();
+  }
+
+  public async Task<List<ProcessedFile>> GetAllProcessedFilesAsync()
+  {
+    return await _context.ProcessedFiles.ToListAsync();
   }
 }
