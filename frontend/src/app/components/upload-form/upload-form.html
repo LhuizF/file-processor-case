@@ -1,0 +1,31 @@
+<div class="upload-container">
+  <h2>Enviar Novo Arquivo</h2>
+  <p class="upload-subtitle">Selecione um arquivo de transações no formato .txt</p>
+
+  <div class="upload-area">
+    <input
+      type="file"
+      class="file-input"
+      id="fileUpload"
+      (change)="onFileSelected($event)"
+      accept=".txt"
+      #fileInput
+    />
+
+    <label for="fileUpload" class="file-label">
+      <span>{{ selectedFile ? selectedFile.name : 'Escolher arquivo...' }}</span>
+    </label>
+
+    <button *ngIf="selectedFile" (click)="onUpload()" [disabled]="isLoading">
+      {{ isLoading ? 'Enviando...' : 'Enviar Arquivo' }}
+    </button>
+  </div>
+
+  <div
+    *ngIf="uploadMessage"
+    class="feedback-message"
+    [ngClass]="{ error: isError, success: !isError }"
+  >
+    {{ uploadMessage }}
+  </div>
+</div>
