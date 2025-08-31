@@ -1,5 +1,11 @@
-export interface Stats {
+export interface StatsModel {
   totalFiles: number;
-  success: number;
-  failure: number;
+  success: {
+    total: number;
+    percent: number;
+  };
+  failure: {
+    total: number;
+    percent: number;
+  };
 }

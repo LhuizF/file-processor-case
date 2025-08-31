@@ -1,0 +1,22 @@
+<div class="chart-container">
+  <h2>Resumo do Processamento (Total: {{ stats?.totalFiles || 0 }})</h2>
+
+  <div *ngIf="stats && stats.totalFiles > 0; else noData">
+    <div class="pie-chart" [style.background]="gradientStyle"></div>
+
+    <div class="legend">
+      <div class="legend-item">
+        <span class="color-box success"></span>
+        Recepcionados: <strong>{{ stats.success.total }}</strong> ({{ stats.success.percent }}%)
+      </div>
+      <div class="legend-item">
+        <span class="color-box failure"></span>
+        Não Recepcionados: <strong>{{ stats.failure.total }}</strong> ({{ stats.failure.percent }}%)
+      </div>
+    </div>
+  </div>
+
+  <ng-template #noData>
+    <p class="empty-state">Ainda não há dados para exibir no gráfico.</p>
+  </ng-template>
+</div>

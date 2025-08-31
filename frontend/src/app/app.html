@@ -3,7 +3,8 @@
 <main class="main-content">
   <h1 class="main-title">Portal de Recepção de Arquivos</h1>
 
-  <app-upload-form (uploadSuccess)="loadFiles()"></app-upload-form>
+  <app-upload-form (uploadSuccess)="loadData()"></app-upload-form>
+  <app-summary-chart [stats]="(stats$ | async) || null"></app-summary-chart>
   <app-file-list [files]="(processedFiles$ | async) || []" [isLoading]="isLoading"></app-file-list>
 </main>
 <header class="main-header"></header>

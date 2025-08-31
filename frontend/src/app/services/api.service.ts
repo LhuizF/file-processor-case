@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Stats } from '../models/stats.model';
+import { StatsModel } from '../models/stats.model';
 import { ProcessedFile } from '../models/processed-file.model';
 
 @Injectable({
@@ -12,8 +12,8 @@ export class ApiService {
 
   constructor(private http: HttpClient) {}
 
-  getStats(): Observable<Stats> {
-    return this.http.get<Stats>(`${this.baseUrl}/processedFiles/status`);
+  getStats(): Observable<StatsModel> {
+    return this.http.get<StatsModel>(`${this.baseUrl}/processedFiles/stats`);
   }
 
   getProcessedFiles(): Observable<ProcessedFile[]> {

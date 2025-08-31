@@ -52,6 +52,11 @@ export class UploadForm {
         this.isLoading = false;
         this.isError = true;
         this.uploadMessage = `Erro ao enviar o arquivo: ${error.error?.message || error.message}`;
+      },
+      complete: () => {
+        setTimeout(() => {
+          this.uploadMessage = '';
+        }, 3000);
       }
     });
   }
