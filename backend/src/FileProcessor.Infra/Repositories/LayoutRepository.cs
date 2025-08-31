@@ -1,4 +1,5 @@
 using FileProcessor.Domain.Entities;
+using FileProcessor.Domain.IRepository;
 using FileProcessor.Infra.Context;
 using Microsoft.EntityFrameworkCore;
 

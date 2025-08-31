@@ -7,6 +7,7 @@ using FileProcessor.Infra.Storage;
 using FileProcessor.Infra.Messaging;
 using Microsoft.EntityFrameworkCore;
 using FileProcessor.Infra.Repositories;
+using FileProcessor.Domain.IRepository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,7 +28,9 @@ builder.Services.AddScoped<IFileStore, LocalFileStore>();
 builder.Services.AddScoped<IProcessAcquirerFileService, ProcessAcquirerFileService>();
 
 builder.Services.AddSingleton<IBackgroundTaskQueue, InMemoryBackgroundTaskQueue>();
+// Repositories
 builder.Services.AddScoped<ILayoutRepository, LayoutRepository>();
+builder.Services.AddScoped<IProcessedFileRepository, ProcessedFileRepository>();
 
 builder.Services.AddHostedService<FileProcessingConsumer>();
 

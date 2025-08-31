@@ -37,10 +37,15 @@ public class AcquirerFileService : IAcquirerFileService
       throw new FileValidationException("Formato de arquivo inválido. Apenas arquivos .txt são permitidos.");
     }
 
-    var path = await _fileStore.SaveFileAsync(fileName, fileStream);
+    var id = Guid.NewGuid();
+
+    var completeFileName = $"{id}_{fileName}";
+
+    var path = await _fileStore.SaveFileAsync(completeFileName, fileStream);
 
     await _taskQueue.Publish(new ProcessFileMessage()
     {
+      Id = id,
       Filename = fileName,
       Path = path,
       ReceivedAt = DateTime.UtcNow,

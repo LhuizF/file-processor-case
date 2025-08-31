@@ -15,11 +15,9 @@ public class LocalFileStore : IFileStore
     }
   }
 
-  public async Task<string> SaveFileAsync(string originalFileName, Stream fileStream)
+  public async Task<string> SaveFileAsync(string fileName, Stream fileStream)
   {
-    var newFileName = $"{Guid.NewGuid()}_{originalFileName}";
-
-    var filePath = Path.Combine(_storagePath, newFileName);
+    var filePath = Path.Combine(_storagePath, fileName);
 
     await using (var file = new FileStream(filePath, FileMode.Create))
     {
