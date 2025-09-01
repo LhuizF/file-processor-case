@@ -8,7 +8,7 @@ import { ProcessedFile } from '../models/processed-file.model';
   providedIn: 'root'
 })
 export class ApiService {
-  private readonly baseUrl = 'http://localhost:5219/api';
+  private readonly baseUrl = 'http://localhost:8080/api';
 
   constructor(private http: HttpClient) {}
 
