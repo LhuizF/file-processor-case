@@ -69,3 +69,31 @@ Depois que os contêineres estiverem rodando, os serviços estarão disponíveis
 - **API (Backend - Documentação Swagger):** [http://localhost:8080/swagger](http://localhost:8080/swagger)
 
   - Interface para visualizar e testar os endpoints da API diretamente.
+
+### Fluxo principal para processamento de arquivos.
+
+```mermaid
+%%{init: {'flowchart': {'curve': 'linear', 'nodeSpacing': 15, 'rankSpacing': 20, 'fontSize': 10}}}%%
+graph TD
+  A[Início: Frontend envia arquivo] --> B{API: AcquirerFilesController};
+  B --> C[AcquirerFileService: Valida metadados];
+  C --> D{Validação OK?};
+  D -- Sim --> E[FileStore: Salva arquivo em pasta temporária];
+  D -- Não --> F[Retorna Erro 400 - BadRequest];
+  E --> G[AcquirerFileService: Publica mensagem na Fila];
+  G --> H((Background Queue));
+
+  subgraph Background
+    H --> I[FileProcessingConsumer: Consome mensagem da fila];
+    I --> J[ProcessAcquirerFileService: Inicia processamento];
+    J --> K[Lê arquivo da pasta temporária];
+    K --> L[Consulta o layout no PostgreSQL];
+    L --> M{Parsing do arquivo com o layout};
+    M -- Sucesso --> N[Status = Recepcionado];
+    M -- Falha --> O[Status = Não Recepcionado com erro];
+    N --> P[Cria entidade ProcessedFile];
+    O --> P;
+    P --> Q[ProcessedFileRepository: Salva no PostgreSQL];
+  end
+  Q --> R[Fim: Registro salvo no banco];
+```
