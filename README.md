@@ -70,6 +70,8 @@ Depois que os contêineres estiverem rodando, os serviços estarão disponíveis
 
   - Interface para visualizar e testar os endpoints da API diretamente.
 
+Para fazer o processamento de arquivos, clique em Enviar Arquivo e selecione um arquivo .txt do seu computador. Na pasta arquivos, localizada na raiz do projeto, há exemplos que podem ser enviados.
+
 ### Fluxo principal para processamento de arquivos.
 
 ```mermaid
