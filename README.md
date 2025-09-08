@@ -6,7 +6,6 @@
   - .NET 9
   - ASP.NET Core API
   - Entity Framework Core
-  - Arquitetura Limpa (Clean Architecture)
 - **Frontend:**
   - Angular 20+
   - TypeScript
@@ -14,7 +13,6 @@
 - **Banco de Dados & Infraestrutura:**
   - PostgreSQL
   - Docker & Docker Compose
-  - Nginx (para servir o frontend)
 
 ## Pré-requisitos
 
